@@ -7,12 +7,39 @@ server.connection({
     port: 8000 
 });
 
+server.route({
+   method: 'GET',
+   path:'/{param*}',
+   handler: {
+       directory: {
+           path: "public",
+           listing: true,
+           index: false
+       }
+   }
+   
+});
+
+server.route({
+   method: 'GET',
+   path:'/shared/{param*}',
+   handler: {
+       directory: {
+           path: "shared",
+           listing: true,
+           index: false
+       }
+   }
+   
+});
+
 // Add the route
 server.route({
     method: 'GET',
     path:'/flickr', 
     handler: function (request, reply) {
-		var credentials = require('./credentials.js'),
+		var credentials = require('./shared/credentials.js'),
+		flickrLib = require('./shared/flickr.js'),
 			httpRequest = require('request'),
 			flickr = {
 				"url": 'https://api.flickr.com/services/rest/',
@@ -27,8 +54,9 @@ server.route({
 			};
 		httpRequest(flickr, function (error, incomingMessage, response) {
 			if (!error && incomingMessage.statusCode === 200) {
-				reply(response); // Browser output
-				console.log("Command window");
+				var photoSrc = flickrLib.createJpgPath(response.photos.photo);
+                                // To-do in class: output html images
+				reply(); // Browser Output
 			}
 		});
     }
