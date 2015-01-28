@@ -64,6 +64,30 @@ server.route({
 
 server.route({
     method: 'GET',
+    path:'/myflickr', 
+    handler: function (request, reply) {
+		var credentials = require('./shared/credentials.js'),
+			flickrLib = require('./shared/flickr.js'),
+			httpRequest = require('request');
+		flickrLib.myflickrOptions.qs.api_key = credentials.flickr.api_key;
+		flickrLib.myflickrOptions.qs.user_id = credentials.flickr.user_id;
+		
+		httpRequest(flickr.Options, function (error, incomingMessage, response) {
+			if (!error && incomingMessage.statusCode === 200) {
+				var html = '';
+					photoSrc = flickrLib.createJpgPath(response.photos.photo);
+				for (var i = 0, len = photoSrc.length; i < len; i++) {
+					html += "<img src='" + photoSrc[i] + "'>";
+				}
+				reply(html); // Complete browser output
+			}
+		});
+    }
+});
+
+
+server.route({
+    method: 'GET',
     path:'/google', 
     handler: function (request, reply) {
 		var httpRequest = require('request');

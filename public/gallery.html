@@ -1,68 +1,55 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>gallery.html</title>
-    </head>
+<head>
+<meta charset="utf-8">
+<title>gallery.html</title>
+</head>
 
-    <body>
-        <h1>CMS</h1>
-        <h2>Flickr</h2>
-
-        <h3>Goal</h3>
-        <p>As a user, I want to see photos tagged with Vancouver.</p>
-        <p>As a dev, I want to search Flickr's API for photos with the tag "Vancouver"</p>
-
-        <h3>Technologies</h3>
-        <ul>
-            <li>Flickr API</li>
-            <li>JavaScript</li>
-            <li>jQuery</li>
-            <li>jQuery AJAX</li>
-        </ul>
-
-        <h3>Live demo</h3>
-        <!-- Flickr API global variables -->
-        <script src="./shared/credentials.js"></script>
-        <!-- jQuery library -->
-        <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-        <!-- Page specic code -->
-        <script>
-            $.ajax({
-                "url": 'https://api.flickr.com/services/rest/',
-                "data": {
-                    "method": 'flickr.photos.search',
-                    "api_key": credentials.flickr.api_key,
-                    "tags": 'seabus',
-                    "format": 'json',
-                    "nojsoncallback": 1
-                },
-                "success": function(response) {
-
-                    // Input should be Flickr's photo details including server, secret, farm
-                    // Output is the full JPG web address
-                    var createJpgPath = function(photos) {
-                        var i,
-                                photo,
-                                photoSrc = [],
-                                len = photos.length;
-                        for (i = 0; i < len; i++) {
-                            photo = photos[i];
-                            // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-                            photoSrc.push("https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg");
-                        }
-                        return photoSrc;
-
-                    };
-
-                    var photoSrc = createJpgPath(response.photos.photo);
-                    $.each(photoSrc, function(i, src) {
-                        $('body').append('<img src="' + src + '">');
-                    });
-                }
-            });
-        </script>
-
-
-    </body>
+<body>
+	<h1>CMS</h1>
+    <h2>Flickr</h2>
+    
+    <h3>Goal</h3>
+    <p>As a user, I want to see photos tagged with Vancouver.</p>
+    <p>As a dev, I want to search Flickr's API for photos with the tag "Vancouver"</p>
+    
+    <h3>Technologies</h3>
+    <ul>
+    	<li>Flickr API</li>
+        <li>JavaScript</li>
+        <li>jQuery</li>
+        <li>jQuery AJAX</li>
+    </ul>
+    
+    <h3>Live demo</h3>
+    <!-- Flickr API global variables -->
+    <script src="shared/credentials.js"></script>
+    <script src="shared/flickr.js"></script>
+    <!-- jQuery library -->
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <!-- Page specic code -->
+    <script>
+		$.ajax({
+			"url": 'https://api.flickr.com/services/rest/',
+			"data": {
+				"method": 'flickr.photos.search',
+				"api_key": credentials.flickr.api_key,
+				"tags": 'seabus',
+				"format": 'json',
+				"nojsoncallback": 1
+			},
+			"success": function (response) {
+				var photoSrc = createJpgPath(response.photos.photo),
+					html = "";
+				$.each(photoSrc, function (i, src) {
+					html += '<img src="' + src + '">';
+				});
+				
+				$('body').append(html);
+			}
+		});
+	</script>
+    
+    
+</body>
 </html>
