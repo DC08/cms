@@ -39,7 +39,7 @@
 		myflickrOptions.qs.user_id = credentials.flickr.user_id;
 		$.ajax({
 			"url": myflickrOptions.url,
-			"data": myflickrOptions.qs,
+			"data": myflickrOptions.data,
 			"success": function (response) {
 				var html = '';
 					photoSrc = createJpgPath(response.photos.photo);

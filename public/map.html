@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>map.html</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <h3>Live Demo</h3>
+        <ul>
+            <li>Leaflet JS API</li>
+            <li>Mapstraction JS abstraction layer API</li>
+            <li>Javascript</li>
+            <li>CSS</li>
+            <li>HTML</li>            
+        </ul>
+        
+        <h3>Live Demo</h3>
+        <div id="mapBox" style="height: 400px;"></div>
+        <!-- Leaflet Map provider API -->
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <!--Mapstraction abstraction layer -->
+        <script src="map/mxn.js?(leaflet)"></script>
+        
+        <script>
+            var map = new mxn.Mapstraction('mapBox', 'leaflet'); 
+		var latlon = new mxn.LatLonPoint(51.50733, -0.12769);
+
+		map.setCenterAndZoom(latlon, 10);
+        
+        </script>
+        
+    </body>
+</html>
